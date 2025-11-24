@@ -26,54 +26,44 @@ jobs:
     name: Build and Push Images to DockerHub
     runs-on: ubuntu-latest
     steps:
-      # Checkout code (à compléter)
       - name: Récupérer le code
         uses: actions/checkout@v4
-# Installer Java (à compléter)
+
       - name: Installer Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-      
-     
 
-      # Se connecter à DockerHub (à compléter)
       - name: Se connecter à DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
 
-     
-      
-
-      # Build API Gateway (à compléter)
-      - name: b&p api gateway
+      # ---------------- API GATEWAY ----------------
+      - name: Build & Push API Gateway
         working-directory: ds-api-gateway
         run: |
           mvn clean package -DskipTests
           docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_API }}:latest .
           docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_API }}:latest
-      # working-directory: ds-api-gateway
-      # run: |
-      - name: b&p client service
+
+      # ---------------- CLIENT SERVICE ----------------
+      - name: Build & Push Client Service
         working-directory: ds-client-service
         run: |
           mvn clean package -DskipTests
           docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_CLIENT }}:latest .
           docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_CLIENT }}:latest
-      # Build Client Service (à compléter)
-      # working-directory: ds-client-service
-      # run: |
-      - name: b&p account service
+
+      # ---------------- ACCOUNT SERVICE ----------------
+      - name: Build & Push Account Service
         working-directory: ds-account-service
         run: |
           mvn clean package -DskipTests
           docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_ACCOUNT }}:latest .
           docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_ACCOUNT }}:latest
-      # Build Account Service (à compléter)
-      # working-directory: ds-account-service
 
   deploy:
     

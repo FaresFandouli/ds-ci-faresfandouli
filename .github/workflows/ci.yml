@@ -36,10 +36,7 @@ jobs:
           distribution: temurin
           java-version: '17'
       
-      - name: Build project with Maven
-        run: mvn clean install
-
-      
+     
 
       # Se connecter à DockerHub (à compléter)
       - name: Se connecter à DockerHub
@@ -47,6 +44,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build project with Maven
+        run: mvn clean install
+
+      
 
       # Build API Gateway (à compléter)
       - name: Build & Push API Gateway Image
@@ -56,7 +58,10 @@ jobs:
           push: true
           tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_API }}:latest
 
+      - name: Build project with Maven
+        run: mvn clean install
 
+      
 
       # working-directory: ds-api-gateway
       # run: |
@@ -66,7 +71,11 @@ jobs:
           context: ./client-service
           push: true
           tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_CLIENT }}:latest
+          
+      - name: Build project with Maven
+        run: mvn clean install
 
+      
       # Build Client Service (à compléter)
       # working-directory: ds-client-service
       # run: |

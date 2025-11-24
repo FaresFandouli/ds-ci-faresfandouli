@@ -3,7 +3,7 @@ name: Build, Push and Deploy DS to DockerHub
 on:
     push:
         branches:
-          - main*
+          - main
     pull_request:
         types: [opened, reopened, edited]
         branches:

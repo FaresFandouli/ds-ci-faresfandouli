@@ -1,7 +1,6 @@
 name: Build, Push and Deploy DS to DockerHub
 
 on:
-  workflow_dispatch:
     push:
         branches:
           - main*
@@ -9,6 +8,7 @@ on:
         types: [opened, reopened, edited]
         branches:
           - main
+workflow_dispatch:
 
 
 env:

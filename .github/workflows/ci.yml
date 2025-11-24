@@ -36,6 +36,9 @@ jobs:
           distribution: temurin
           java-version: '17'
       
+      - name: Build project with Maven
+        run: mvn clean install
+
       
 
       # Se connecter à DockerHub (à compléter)

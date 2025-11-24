@@ -45,50 +45,35 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build project with Maven
-        run: mvn clean install
-
+     
       
 
       # Build API Gateway (à compléter)
-      - name: Build & Push API Gateway Image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./api-gateway
-          push: true
-          tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_API }}:latest
-
-      - name: Build project with Maven
-        run: mvn clean install
-
-      
-
+      - name: b&p api gateway
+        working-directory: ds-api-gateway
+        run: |
+          mvn clean package -DskipTests
+          docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_API }}:latest .
+          docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_API }}:latest
       # working-directory: ds-api-gateway
       # run: |
-      - name: Build & Push Client Service Image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./client-service
-          push: true
-          tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_CLIENT }}:latest
-          
-      - name: Build project with Maven
-        run: mvn clean install
-
-      
+      - name: b&p client service
+        working-directory: ds-client-service
+        run: |
+          mvn clean package -DskipTests
+          docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_CLIENT }}:latest .
+          docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_CLIENT }}:latest
       # Build Client Service (à compléter)
       # working-directory: ds-client-service
       # run: |
-      - name: Build & Push Account Service Image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./account-service
-          push: true
-          tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_ACCOUNT }}:latest
-
+      - name: b&p account service
+        working-directory: ds-account-service
+        run: |
+          mvn clean package -DskipTests
+          docker build -t ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_ACCOUNT }}:latest .
+          docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.REPO_ACCOUNT }}:latest
       # Build Account Service (à compléter)
       # working-directory: ds-account-service
-      # run: |
 
   deploy:
     

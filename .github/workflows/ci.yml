@@ -83,5 +83,6 @@ jobs:
     needs: build
     steps:
       - name: Simulate deployment
-        run: echo "Simulating deployment of all services"|
+        run: 
+          echo "Simulating deployment of all services"|
          
